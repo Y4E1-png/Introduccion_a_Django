@@ -1,0 +1,15 @@
+{% include "ecommerce/messages.html" %}
+{% include "ecommerce/search.html" %}
+
+<h1>
+  Vista de listado
+</h1>
+
+{% for product in products %}
+  <li>
+    <a href="/ecommerce/{{product.id}}">{{product.title}}</a>
+    {{product.price}}
+    {{product.description}}
+    {{product.color}}
+  </li>
+{% endfor %}
