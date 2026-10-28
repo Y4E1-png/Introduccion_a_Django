@@ -4,7 +4,8 @@ from .models import ProductModel
 from .forms import ProductModelForm
 from django.http import HttpResponseRedirect
 from django.db.models import Q
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 
 # Create your views here.
 
@@ -76,3 +77,10 @@ def delete_view (request, product_id):
   template = "ecommerce/delete-view.html"
   return render (request, template, context)
   
+
+
+class ProtectedListView (LoginRequiredMixin, ListView):
+  model = ProductModel
+
+  def get_queryset(self):
+    return ProductModel.objects.filter(seller=self.request.user.username)
