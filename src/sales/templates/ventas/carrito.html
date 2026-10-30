@@ -1,0 +1,19 @@
+<h1>Tu carrito</h1>
+
+{% for item in productos_carrito %}
+  <h2>{{ item.producto.title }}</h2>
+  <p>Precio: {{ item.producto.price }}</p>
+  <p>Cantidad: {{ item.cantidad }}</p>
+
+
+  
+{% empty %}
+  <p>Tu carrito está vacío.</p>
+{% endfor %}
+
+{% if productos_carrito %}
+  <form method="post" action="{% url 'sales:procesar_pedido' %}">
+    {% csrf_token %}
+    <button type="submit">Procesar pedido</button>
+  </form>
+{% endif %}

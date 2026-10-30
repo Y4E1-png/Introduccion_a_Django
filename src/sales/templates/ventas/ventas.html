@@ -1,0 +1,17 @@
+{% for product in products %}
+  <h2>{{ product.title }}</h2>
+  <p>{{ product.price }}</p>
+
+  <form method="post" action="{% url 'sales:añadir_al_carrito' product.id %}">
+    {% csrf_token %}
+    <button type="submit">Agregar al carrito</button>
+  </form>
+
+{% empty %}
+  <p>Aún no hay productos.</p>
+{% endfor %}
+
+
+
+
+<a href="{% url 'sales:carrito' %}">Ver carrito</a>
