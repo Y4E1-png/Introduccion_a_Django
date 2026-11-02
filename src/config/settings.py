@@ -34,26 +34,31 @@ ALLOWED_HOSTS = list(map(str.strip, allowed_hosts.split(",")))
 
 # Application definitions
 INSTALLED_APPS = [
-    "pages.apps.PagesConfig",
-    "ecommerce.apps.EcommerceConfig",
-    "sales.apps.SalesConfig",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
+  "pages.apps.PagesConfig",
+  "ecommerce.apps.EcommerceConfig",
+  "sales.apps.SalesConfig",
+  "order_manager.apps.OrderManagerConfig",
+  "address.apps.AddressConfig",
+  "billing_profile.apps.BillingProfileConfig",
+  "cart.apps.CartConfig",
+  "product.apps.ProductConfig",
+  "django.contrib.admin",
+  "django.contrib.auth",
+  "django.contrib.contenttypes",
+  "django.contrib.sessions",
+  "django.contrib.messages",
+  "django.contrib.staticfiles",
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+  "django.middleware.security.SecurityMiddleware",
+  "whitenoise.middleware.WhiteNoiseMiddleware",
+  "django.contrib.sessions.middleware.SessionMiddleware",
+  "django.middleware.common.CommonMiddleware",
+  "django.middleware.csrf.CsrfViewMiddleware",
+  "django.contrib.auth.middleware.AuthenticationMiddleware",
+  "django.contrib.messages.middleware.MessageMiddleware",
+  "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 if not TESTING:
