@@ -1,17 +1,68 @@
-{% for product in products %}
-  <h2>{{ product.title }}</h2>
-  <p>{{ product.price }}</p>
 
-  <form method="post" action="{% url 'sales:añadir_al_carrito' product.id %}">
-    {% csrf_token %}
-    <button type="submit">Agregar al carrito</button>
-  </form>
+{% block body %}
+  <h2>Productos</h2>
+  {% for product in products %}
+    <article>
+      <h3>{{ product.title }}</h3>
+      <p>{{ product.price }}</p>
+      <form method="post" action="{% url 'sales:añadir_al_carrito' product.id %}">
+        {% csrf_token %}
+        <button type="submit">Agregar al carrito</button>
+      </form>
+    </article>
+  {% empty %}
+    <p>Aún no hay productos.</p>
+  {% endfor %}
 
-{% empty %}
-  <p>Aún no hay productos.</p>
-{% endfor %}
+  <a href="{% url 'sales:carrito' %}">Ver carrito</a>
 
+  {% if request.user.is_staff %}
+    <h1>Ventas</h1>
+    <section aria-labelledby="grafica-ventas-titulo">
+      <h2>Gráfica de ventas por día</h2>
+      <p id="estado-grafica" role="status">Cargando ventas…</p>
+      <div style="max-width: 800px;">
+        <canvas id="grafica-ventas" aria-label="Ventas totales por día" role="img"></canvas>
+      </div>
+    </section>
+  {% endif %}
 
+  {% if request.user.is_staff %}
+    {% include "base/js.html" %}
+    <script>
+      const estadoGrafica = document.getElementById("estado-grafica");
+      const contextoGrafica = document.getElementById("grafica-ventas");
 
-
-<a href="{% url 'sales:carrito' %}">Ver carrito</a>
+      fetch("{% url 'sales:ventas_ajax' %}")
+        .then((respuesta) => {
+          if (!respuesta.ok) throw new Error("No se pudieron cargar las ventas.");
+          return respuesta.json();
+        })
+        .then((datos) => {
+          new Chart(contextoGrafica, {
+            type: "bar",
+            data: {
+              labels: datos.labels,
+              datasets: [{
+                label: "Ventas totales",
+                data: datos.values,
+                backgroundColor: "rgba(54, 162, 235, 0.55)",
+                borderColor: "rgb(54, 162, 235)",
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: { y: { beginAtZero: true } }
+            }
+          });
+          estadoGrafica.textContent = datos.labels.length
+            ? "Ventas cargadas."
+            : "Todavía no hay ventas registradas.";
+        })
+        .catch((error) => {
+          estadoGrafica.textContent = error.message;
+        });
+    </script>
+  {% endif %}
+{% endblock %}

@@ -3,6 +3,9 @@ from django.views.generic import ListView, TemplateView
 from ecommerce.models import ProductModel
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
+from django.http import JsonResponse
+from django.db.models import Sum
+from orders.models import Orders
 # Create your views here.
 
 class ProductList (ListView):
@@ -53,4 +56,21 @@ class ProcesarPedido(View):
     request.session["carrito"] = {}
     return render(request, "ventas/pedido_confirmado.html")
 
-  
+
+
+class SalesAjaxView (View):
+  def get(self, request, *args, **kwargs):
+    if not request.user.is_staff:
+      return JsonResponse({"error": "No tienes permiso para consultar las ventas."}, status=403)
+
+    ventas_por_dia = (
+      Orders.objects.filter(active=True)
+      .values("timestamp__date")
+      .annotate(total_ventas=Sum("total"))
+      .order_by("timestamp__date")
+    )
+
+    return JsonResponse({
+      "labels": [venta["timestamp__date"].isoformat() for venta in ventas_por_dia],
+      "values": [float(venta["total_ventas"] or 0) for venta in ventas_por_dia],
+    })
