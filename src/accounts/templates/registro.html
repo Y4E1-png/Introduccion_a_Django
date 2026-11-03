@@ -1,0 +1,13 @@
+<h1>Crear cuenta</h1>
+
+{% if messages %}
+  {% for message in messages %}
+    <p role="status">{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Registrarme</button>
+</form>
