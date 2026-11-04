@@ -1,0 +1,35 @@
+{% extends "ecommerce/base.html" %}
+
+
+<h1>{{ mi_titulo | title}}</h1>
+<h1>{{ mi_titulo | lower}}</h1>
+
+{{numero1 | add:300}}
+{{numero1 | add:numero2}}
+
+
+
+<style>
+  .bold {
+    font-weight: bold;
+  }
+</style>
+
+
+<ul>
+  {% for obj in mi_lista %}
+    <li {% if forloop.counter|divisibleby:2  %} class="bold" {% endif %}>
+      {{ forloop.counter }} {{ obj }}
+    </li>
+  {% endfor %}
+</ul>
+
+
+
+
+
+{% block content %}
+
+  {% include "ecommerce/base.html" with test_title="Test Product" test_price="Test Price 2999.0" created_at=today %}
+
+{% endblock %}

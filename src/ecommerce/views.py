@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
+from datetime import datetime
 from .models import ProductModel
 from .forms import ProductModelForm
 from django.http import HttpResponseRedirect
@@ -84,3 +85,19 @@ class ProtectedListView (LoginRequiredMixin, ListView):
 
   def get_queryset(self):
     return ProductModel.objects.filter(seller=self.request.user.username)
+
+
+
+def test_template (request):
+
+  lista = ["Gorra", "Lentes", "Bufanda", "Chamarra", "Sudadera", "Playera", "Pantalon", "Calcetines", "Zapatos"]
+
+  context = {
+    "mi_titulo":"Ejemplo de titulo",
+    "numero1":12345,
+    "numero2":67890,
+    "mi_lista":lista,
+    "today":datetime.now().today()
+  }
+  template = "ecommerce/test_templates.html"
+  return render (request, template, context)

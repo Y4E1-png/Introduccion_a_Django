@@ -9,5 +9,6 @@ urlpatterns = [
     path("create", views.create_view, name="create"),
     path("<int:product_id>/edit/", views.update_view, name="update"),
     path("<int:product_id>/delete/", views.delete_view, name="delete"),
-    path("my-products", ProtectedListView.as_view(), name="protected-list")
+    path("my-products", ProtectedListView.as_view(), name="protected-list"),
+    path("test-template", views.test_template, name="test_template")
 ]
