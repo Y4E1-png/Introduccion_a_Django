@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-
-<head>
-  <title>
-    {% block title %}
-      Mi template base
-    {% endblock %}
-  </title>
-
-  <style>
-    .bold {
-      font-weight: bold;
-    }
-  </style>
-</head>
-
 <html>
+  <head>
+    <title>
+      {% block title %}
+        Mi template base
+      {% endblock %}
+    </title>
+
+    <style>
+      .bold {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
   <body>
     {% include "ecommerce/messages.html" %}
     {% block content %}
