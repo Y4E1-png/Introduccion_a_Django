@@ -7,6 +7,9 @@ from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from rest_framework import generics
+from .pagination import ProductPagination
+from .serializers import ProductSerializer
 
 # Create your views here.
 
@@ -101,3 +104,9 @@ def test_template (request):
   }
   template = "ecommerce/test_templates.html"
   return render (request, template, context)
+
+
+class ProtectedListView (generics.ListAPIView):
+  queryset = ProductModel.objects.all()
+  serializer_class = ProductSerializer
+  pagination_class = ProductPagination

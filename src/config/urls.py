@@ -20,16 +20,16 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path("up/", include("up.urls")),
-    path("pages/", include("pages.urls")),
-    path("ecommerce/", include("ecommerce.urls")),
-    path("sales/", include("sales.urls")),
-    path("accounts/", include("accounts.urls")),
-    path("admin/", admin.site.urls),
-    path("api/v1/", include("api.urls"))
+  path("up/", include("up.urls")),
+  path("pages/", include("pages.urls")),
+  path("ecommerce/", include("ecommerce.urls")),
+  path("sales/", include("sales.urls")),
+  path("accounts/", include("accounts.urls")),
+  path("admin/", admin.site.urls),
+  path("api/v1/", include("api.urls"))
 ]
 if not settings.TESTING:
-    urlpatterns = [
-        *urlpatterns,
-        path("__debug__/", include("debug_toolbar.urls")),
-    ]
+  urlpatterns = [
+    *urlpatterns,
+    path("__debug__/", include("debug_toolbar.urls")),
+  ]
