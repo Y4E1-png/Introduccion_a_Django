@@ -3,8 +3,11 @@ from rest_framework import views
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from product.models import Product
-from .serializer import ProductSerializer
+from .serializer import ProductSerializer, RegistrationSerializer, UserProfileSerializer
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -95,3 +98,33 @@ class TestViewSet (ViewSet):
     producto.delete()
     
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+@api_view (["POST"])
+def registration_view (request):
+    serializer = RegistrationSerializer(data=request.data)
+
+    if serializer.is_valid():
+      account = serializer.save()
+      refresh = RefreshToken.for_user(account)
+
+      return Response ({
+        "response":"Resgitro Exitoso",
+        "username": account.username,
+        "email": account.email,
+        "token": {
+          "refresh":str(refresh),
+          "access":str(refresh.access_token)
+        }
+      }, status=status.HTTP_201_CREATED)
+    else:
+      return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfileView (views.APIView):
+  permission_classes = [IsAuthenticated]
+
+  def get (self, request):
+    serializer = UserProfileSerializer(request.user)
+    return Response (serializer.data)

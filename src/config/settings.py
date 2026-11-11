@@ -35,6 +35,7 @@ ALLOWED_HOSTS = list(map(str.strip, allowed_hosts.split(",")))
 # Application definitions
 INSTALLED_APPS = [
   "rest_framework",
+  "rest_framework.authtoken",
   "pages.apps.PagesConfig",
   "ecommerce.apps.EcommerceConfig",
   "sales.apps.SalesConfig",
@@ -186,3 +187,15 @@ if DEBUG:
         "127.0.0.1",
         "10.0.2.2",
     ]
+
+
+REST_FRAMEWORK = {
+  "DEFAULT_AUTHENTICATION_CLASSES" : [
+    "rest_framework_simplejwt.authentication.JWTAuthentication"
+  ]
+}
+
+SIMPLE_JWT = {
+  "ROTATE_REFRESH_TOKENS" : True
+}
+
